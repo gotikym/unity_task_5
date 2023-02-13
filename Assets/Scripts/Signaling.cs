@@ -13,26 +13,22 @@ public class Signaling : MonoBehaviour
 
     public void UpVolume()
     {
-        if (_coroutine == null)
-        {
-            _audioSource.Play();
-            StartCoroutine(_maxVolume);
-        }
-        else
-        {
-            StopCoroutine(_coroutine);
-            StartCoroutine(_maxVolume);
-        }
+        _audioSource.Play();
+        StartChangeVolume(_maxVolume);
     }
 
     public void DownVolume()
     {
-        StopCoroutine(_coroutine);
-        StartCoroutine(_minVolume);
+        StartChangeVolume(_minVolume);
     }
 
-    private void StartCoroutine(float targetVolume)
+    private void StartChangeVolume(float targetVolume)
     {
+        if (_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+        }
+
         _coroutine = StartCoroutine(ChangeVolume(targetVolume));
     }
 
